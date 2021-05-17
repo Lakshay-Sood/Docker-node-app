@@ -1,10 +1,15 @@
 # Docker Node App
 A simple node server that we will run in docker container using its docker image.
 
+The main feature is that we won't just build and run the docker image inside a container, but we would also ensure that we can **develop side-by-side** without having to rebuild the docker image for each subsequent change made in the source code.**
+    
+---
+
 ## Prerequisite:
 1. Get Docker from https://docs.docker.com/get-docker/
 2. In the terminal, type `docker version` and it should list *Client* as well as *Server Docker Engine* details
 (if only *Client* details are displayed, make sure your Docker desktop app is up and running)
+3. NO NEED to install node on your machine
 
 ## Steps to Follow:
 1. Clone this repo
@@ -33,15 +38,15 @@ A simple node server that we will run in docker container using its docker image
   3. Installs nodemon so that our server can re-run on code changes
   4. Moves `package.json` and `node_modules` into the work directory
   5. Does `npm install` to install modules listed in `package.json`
-  6. Copies our source code from current directory (on local machine) to */code* directory in the docker's virtual environment
+  6. Copies our source code from current directory (on local machine) to */code* directory in the docker container
   7. Specifies a command `npm start` that should be run when we run the docker container
   
 - ### **docker-compose.yml**
   1. Specifies a service *web* for our docker image of node server
   2. `build .` tells docker to build an image using `Dockerfile` in the current directory (*.* specifies current directory)
   3. `nodemon` command is for debugging purposes
-  4. `volumes` specifies that our current directory (*.*) in local machine should be mapped to the */code* directory in the docker's virtual environment. 
-  This is important as any change we make on our local directory is then reflected in docker and thus nodemon can track it and restart the server with updated code
-  5. Maps the ports 8000 (and 5858, for debugging) of the local machine to the ports 8000 (and 5858) of the docker's virtual environment. 
+  4. `volumes` specifies that our current directory (**.**) in local machine should be mapped to the */code* directory in the docker container.
+  This is important as any change we make on our local directory is then reflected inside the running docker container and thus nodemon can track it and restart the server with updated code.
+  5. Maps the ports 8000 (and 5858, for debugging) of the local machine to the ports 8000 (and 5858) of the docker container.
   Thus, requests made to our localhost:8000 will be redirected to port 8000 of the docker container where our server is actually running.
   
